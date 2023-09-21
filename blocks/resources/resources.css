@@ -1,0 +1,270 @@
+main .section .resources-wrapper {
+  padding-top: 0;
+}
+
+.resources .resources-section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.resources .resource {
+  width: 50%;
+  max-width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.resources .resource-icon {
+  flex: 0 0 auto;
+  margin-right: 15px;
+}
+
+.resources .resource-info {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+}
+
+.resources .resource-header p {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.resources .resource-header h3 {
+  font-family: var(--ff-proxima-light);
+  font-weight: 300;
+  font-size: 22px;
+}
+
+.resources .resource-description {
+  font-size: var(--body-font-size-s);
+  margin: 15px 0;
+}
+
+.resources .resource-link a {
+  color: var(--button-bg-color);
+}
+
+.resources .video-resources-title {
+  text-align: center;
+}
+
+.resources .video-wrapper {
+  width: 50%;
+  max-width: 50%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.resources .video-container {
+  box-shadow: 0 1px 15px rgba(0 0 0 / 20%);
+  height: 309px;
+}
+
+.resources .vidyard-player-container img {
+  height: 309px;
+}
+
+.resources .vidyard-video-placeholder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.resources .vidyard-video-placeholder img {
+  width: 100%;
+  height: 100%;
+}
+
+.resources .vidyard-video-placeholder a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.resources .vidyard-video-placeholder .play-button {
+  position: absolute;
+  width: 16%;
+  height: auto;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background-color: var(--text-dark-gray);
+  opacity: .65;
+  transition: opacity .2s linear;
+  overflow: hidden;
+  font-size: 0;
+  padding: 0;
+  min-width: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.resources .vidyard-video-placeholder .play-button .play-button-size {
+  padding-top: 100%;
+  width: 100%;
+}
+
+.resources .vidyard-video-placeholder .play-button .arrow-size {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 35%;
+  height: auto;
+  margin: -25% 0 0 -12%;
+  overflow: hidden;
+}
+
+.resources .vidyard-video-placeholder .play-button .arrow-size-ratio {
+  padding-top: 150%;
+  width: 100%;
+}
+
+.resources .vidyard-video-placeholder .play-button .arrow {
+  position: absolute;
+  top: 50%;
+  left: auto;
+  right: 0;
+  bottom: auto;
+  width: 0;
+  height: 0;
+  margin: -200px 0 -200px -300px;
+  border: 200px solid transparent;
+  border-left: 300px solid #fff;
+  border-right: none;
+}
+
+.resources .vidyard-video-placeholder a:hover .play-button {
+  opacity: 1;
+}
+
+.resources .vidyard-video-placeholder .play-button .play-arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 0 8px 16px;
+  border-color: transparent transparent transparent white;
+}
+
+.resources .video-container .ceros, .resources .video-container .ceros img {
+  width: 100%;
+  height: 100%;
+}
+
+.resources ul.filters {
+  list-style: none;
+  text-align: center;
+  font-family: var(--ff-proxima-light);
+  font-size: 17px;
+  padding-inline-start: 0;
+}
+
+.resources li.filter {
+  display: inline-block;
+  line-height: 21px;
+  margin-bottom: 20px;
+}
+
+.resources .filter a {
+  color: var(--text-color);
+}
+
+.resources .filter[aria-selected='true'] a {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.resources .filter-divider {
+  margin: 0 15px;
+}
+
+.resources .icon.icon-chevron-right-outline {
+  height: 20px;
+  width: 20px;
+  float: right;
+  padding: 0;
+  transform: rotate(90deg);
+  margin-left: 10px;
+  display: none;
+}
+
+.resources .resource[aria-hidden='true'],
+.resources .videos-container[aria-hidden='true'] {
+  display: none;
+}
+
+.hide {
+  display: none;
+}
+
+@media only screen and (max-width: 1199px) {
+  .resources .video-container, .resources .vidyard-player-container img {
+    height: 253px;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  main .section .resources-wrapper {
+    padding: 0;
+  }
+
+  .resources .resource, .resources .video-wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .resources .video-container, .resources .vidyard-player-container img {
+    height: auto;
+  }
+
+  .resources .resource-icon {
+    width: 35px;
+  }
+
+  .resources .filters {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .resources .filter-divider {
+    display: none;
+  }
+
+  .resources li.filter {
+    display: none;
+    text-align: left;
+    padding: 5px 30px;
+    margin-bottom: 5px;
+  }
+
+  .resources .filters.dropdown li.filter {
+    display: block;
+  }
+
+  .resources li.filter[aria-selected='true'] {
+    display: block;
+    order: -1;
+    color: var(--link-hover-color);
+  }
+
+  .resources li.filter[aria-selected='true'] a {
+    color: var(--link-hover-color);
+  }
+
+  .resources li.filter[aria-selected='true'] .icon.icon-chevron-right-outline {
+    display: block;
+  }
+
+  .resources .filters.dropdown li.filter[aria-selected='true'] .icon.icon-chevron-right-outline {
+    transform: rotate(270deg);
+  }
+}

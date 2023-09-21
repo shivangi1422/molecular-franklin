@@ -1,0 +1,118 @@
+main .section.social-share-container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* News and Publication Variant */
+.publication .share-event,
+.news .share-event {
+    float: left;
+    padding: 15px 0 0;
+  }
+
+.publication .share-event p,
+.news .share-event p {
+  margin: 0 0 15px;
+  text-transform: uppercase;
+  font-family: var(--ff-proxima-light);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.publication .social-links ul,
+.news .social-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+.publication .social-links li,
+.news .social-links li {
+  float: left;
+  padding-right: 25px;
+}
+
+.publication .social-links li a i,
+.news .social-links li a i {
+  display: inline-block;
+  font-size: 21px;
+}
+
+.publication .social-links ul li i,
+.news .social-links ul li i {
+  color: var(--button-bg-color);
+  line-height: 28px;
+  cursor: pointer;
+}
+
+/* Blog Variant */
+.blog .share-event p {
+  display: none;
+}
+
+.blog .share-event ul.button-container {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  transition: all .3s ease-in-out;
+  visibility: visible;
+  opacity: 1;
+  margin-top: 0;
+}
+
+.blog .social-share-hidden .share-event ul.button-container {
+  visibility: hidden;
+  opacity: 0;
+  margin-top: 20px;
+}
+
+.blog .share-event ul.button-container li {
+  clear: both;
+  padding: 0;
+  margin: 0;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  font-size: 30px;
+  box-shadow: none;
+  transition: all .2s ease-in-out;
+  background-color: rgba(50 159 121 / 100%);
+  background-image: linear-gradient(to left,rgba(21 145 164 / 100%) 0,rgba(50 159 121 / 100%) 50%,rgba(97 178 73 / 100%) 100%);
+}
+
+.blog .share-event ul.button-container li:hover {
+  background-image: none;
+  box-shadow: 4px 2px 4px rgba(0 0 0 / 50%);
+}
+
+.blog .share-event ul.button-container li a {
+  display: block;
+}
+
+.blog .share-event ul.button-container li i {
+  color: #fff;
+  font-size: 30px;
+}
+
+@media only screen and (max-width: 767px) {
+  .blog .social-share {
+    margin-top: 60px;
+  }
+
+  .blog .share-event ul.button-container {
+    position: static;
+    flex-direction: row;
+    justify-content: center;
+    transform: none;
+  }
+}

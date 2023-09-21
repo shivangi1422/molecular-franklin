@@ -1,0 +1,256 @@
+:root {
+  --blog-underline-gradient: linear-gradient(90deg,rgba(21,145,164,1) 0,rgba(46,159,121,1) 50%,rgba(97,178,73,1) 100%);
+}
+
+.blog {
+  font-family: var(--ff-proxima-regular);
+}
+
+.blog .section .default-content-wrapper {
+  padding: 0;
+}
+
+.blog .section .default-content-wrapper > p:last-child {
+  margin-bottom: 0;
+}
+
+.blog strong {
+  font-family: var(--ff-proxima-regular);
+}
+
+.blog p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.blog ul,
+.blog ol {
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+.blog table ul,
+.blog table ol {
+  margin-left: 15px;
+}
+
+.blog ul ul {
+  margin-bottom: 0;
+}
+
+.blog ol.text-caption {
+  margin-top: 40px;
+  position: relative;
+}
+
+.blog ol.text-caption::before {
+  content: "";
+  top: -21px;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background: #eee;
+  position: absolute;
+}
+
+.blog h2 {
+  font-size: 54px;
+  color: #008da9;
+  font-family: inherit;
+  line-height: 1;
+  font-weight: 100;;
+  margin-top: 43px;
+  margin-bottom: 20px;
+}
+
+.blog h3 {
+  display: inline-block;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 30px;
+  line-height: 30px;
+}
+
+.blog .section > div:not(.hero-wrapper) {
+  max-width: 800px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.blog .section > div.embed-wrapper > div.embed {
+  width: unset;
+}
+
+.blog .columns-wrapper:has(h3) { /* ?? */
+  margin-top: 30px;
+}
+
+.blog .section.blog-wide {
+  padding: 0;
+}
+
+.blog .section.blog-wide > div {
+  max-width: 1170px;
+  width: unset;
+  margin: 0 auto;
+}
+
+.blog .section.blog-heading > div {
+  max-width: unset;
+  width: unset;
+  margin: 0;
+}
+
+.blog .section.blog-heading > div.default-content-wrapper:first-of-type {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin: 0 15px 50px;
+  padding: 0;
+}
+
+.blog .section.blog-heading > div:first-of-type::after {
+  content: "";
+  position: absolute;
+  bottom: -21px;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background-color: #61b249;
+  background: var(--blog-underline-gradient);
+}
+
+.blog .section.blog-heading > div:first-of-type p {
+  margin: 0;
+}
+
+main .section.sidebar h4,
+.blog .section.blog-heading h4 {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.blog .section.blog-heading .icon-view-all-posts img {
+  display: block;
+  width: 178px;
+}
+
+
+.blog .section.green-secondary-buttons .button {
+  color: var(--text-green);
+}
+
+.blog .section.orange-buttons .button.secondary {
+  color: var(--text-orange);
+  border: 2px solid var(--text-orange);
+}
+
+
+
+@media only screen and (max-width: 767px) {
+  .blog .section.blog-heading > div:first-of-type {
+    overflow: visible;
+  }
+
+  .blog .section.blog-heading .icon-view-all-posts img {
+    width: 120px;
+  }
+}
+
+main.sidebar {
+  display: grid;
+  grid-template-columns: auto 780px 390px auto;
+}
+
+@media only screen and (max-width: 1200px) {
+  main.sidebar {
+    grid-template-columns: auto 646px 323px auto;
+  }
+}
+
+/* put all content that's not in the sidebar in second column */
+main.sidebar > *:not(.section.sidebar) {
+  grid-column: 2;
+}
+
+/*
+  put sidebar in column 3
+  sidebar starts hardcoded from third row, because we only have it on /lab-notes
+  sidebar ends before the last section, as last section is wave
+*/
+main.sidebar .section.sidebar {
+  grid-column: 3;
+  grid-row: 3 / -2;
+}
+
+/* full width sections */
+main.sidebar div.section.hero-container,
+main.sidebar .section.wave,
+main.sidebar > .section.full-width-no-sidebar {
+  grid-column: 1 / -1;
+}
+
+/* sidebar content styling */
+main.sidebar .section.sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+}
+
+main .section.sidebar h4 {
+  margin-bottom: 50px;
+  position: relative;
+}
+
+main.sidebar .section.sidebar .default-content-wrapper {
+  padding-top: 0;
+}
+
+main .section.sidebar h4::after {
+  content: "";
+  position: absolute;
+  bottom: -33px;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background-color: #61b249;
+  background: var(--blog-underline-gradient);
+}
+
+.blog main .section.sidebar .embed-wrapper {
+  padding: 0;
+}
+
+.blog main .section.sidebar .embed-twitter {
+  margin-top: 0;
+}
+
+@media only screen and (max-width: 991px) {
+  main.sidebar {
+    grid-template-columns: auto 750px auto;
+  }
+
+  main.sidebar .section.sidebar {
+    grid-column: 2;
+    grid-row: unset;
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  main.sidebar {
+    grid-template-columns: repeat(3, auto);
+  }
+}
+
+.blog .card-thumb a[href*="3d-organoids-and-automation-of-complex-cell-assays"] img {
+  object-position: right;
+}
+
+.blog .card-caption h3 {
+  line-height: 1.1;
+  margin-top: 0;
+}

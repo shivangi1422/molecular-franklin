@@ -1,0 +1,455 @@
+/*
+  Default Carousel Styling.
+  Same as .products on the landing page.
+  Variant stylings can be found below.
+*/
+
+main div.carousel-wrapper {
+  width: 100%;
+  position: relative;
+  max-width: unset;
+}
+
+main div.carousel-wrapper:last-child {
+  margin-bottom: 0 !important;
+}
+
+main .carousel {
+  box-sizing: border-box;
+  display: flex;
+  overflow: hidden;
+  margin: auto;
+  width: 100%;          /* default - same as .products */
+  padding-left: 200px;  /* default - same as .products */
+  padding-right: 200px; /* default - same as .products */
+}
+
+main .carousel-item {
+  box-sizing: border-box;
+  width: 100%;
+  margin-right: 30px;
+  flex: 1 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 80px;     /* default - same as .products */
+}
+
+main .carousel-item-columns-container {
+  max-width: 1140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+main .carousel-item-column {
+  width: 50%;
+  padding: 0 15px;
+}
+
+main .carousel-item-image img {
+  display: block;
+  object-fit: contain;
+  width: 100%;       /* default - same as .products */
+  max-height: 400px; /* default - same as .products */
+}
+
+main .carousel-item-text h3 {
+  font-size: 32px;
+  font-weight: lighter;
+}
+
+main .carousel-item-text .button-container {
+  display: inline-block;
+}
+
+main .carousel-item-text .button-container .secondary {
+  margin-left: 15px;
+}
+
+main .carousel-nav-button {
+  z-index: 99;
+  min-width: unset;
+  padding: 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #adb3b7;               /* default - same as .products */
+  border: 1.5px solid #adb3b7;  /* default - same as .products */
+  background-color: inherit;      /* default - same as .products */
+}
+
+main .carousel-nav-button.disabled {
+  display: none;
+}
+
+main .carousel-nav-button:hover {
+  background-color: #adb3b7;
+  color: var(--text-white);
+  border: 1.5px solid var(--background-color);
+}
+
+main .carousel-nav-button .icon {
+  height: 38px;
+  width: 38px;
+  stroke-width: 20;
+}
+
+main .carousel-nav-left {
+  left: 20px;
+}
+
+main .carousel-nav-right {
+  right: 20px;
+}
+
+main .carousel-dot-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  min-width: unset;
+  margin-top: 20px;
+}
+
+main .carousel-dot-button {
+  min-width: unset;
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border: 1px solid #cacaca;
+  border-radius: 50%;
+  padding: 0;
+}
+
+main .carousel-dot-button.selected {
+  background-color: #cacaca;
+  border: 0;
+}
+
+@media only screen and (max-width: 1400px) {
+  main .carousel {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  main .carousel-item-columns-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  main .carousel-item-column {
+    width: 100%;
+    padding: 0;
+    align-items: center;
+  }
+
+  main .carousel-item-image img {
+    max-height: 300px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  main .carousel {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  main .carousel-item {
+    padding: 20px;
+  }
+
+  main .carousel-item-text h3 {
+    font-size: 24px;
+  }
+
+  main .carousel-item-text .button-container {
+    margin-top: 30px;
+    max-width: 200px !important;
+    width: 100% !important;
+  }
+
+  main .carousel-item-text .button-container .button {
+    max-width: 200px !important;
+    width: 100% !important;
+    font-size: 12px;
+  }
+
+  main .carousel-nav-button .icon {
+    height: 26px;
+    width: 26px;
+  }
+
+  main .carousel-nav-button {
+    width: unset;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  main .carousel-item-text .button-container {
+    margin-bottom: 0;
+  }
+
+  main .carousel-item-text .button-container .button {
+    margin-left: 0;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  main .carousel-item-text .button-container {
+    max-width: unset !important;
+    display: block;
+  }
+
+  main .carousel-item-text .button-container .button {
+    max-width: unset !important;
+  }
+
+  main .carousel a.button {
+    display: block;
+  }
+}
+
+/* WAVE carousel variant */
+main div.carousel-wrapper.wave {
+  width: 1170px;
+}
+
+main .carousel.wave {
+  padding: 0;
+}
+
+main .carousel.wave .carousel-item-columns-container {
+  gap: 2em;
+}
+
+main .carousel.wave .carousel-item  {
+  padding: 20px 15px;
+  height: 100%;
+}
+
+main .carousel.wave .carousel-item-column {
+  width: unset;
+  padding: 0;
+}
+
+main .carousel.wave .carousel-item-image img {
+  height: 353px;
+  width: 330px;
+}
+
+main .carousel.wave .carousel-item-text {
+  margin-top: 13%;
+  max-width: 597px;
+  padding-right: 15px;
+  text-align: center;
+  position: relative;
+}
+
+main .carousel.wave .carousel-item-text p {
+  color: var(--text-white);
+  font-size: 27px;
+}
+
+main .carousel.wave .carousel-item-text .button-container a.secondary,
+main .carousel.wave .carousel-item-text .button-container a.secondary:hover {
+  background-color: transparent;
+  color: var(--text-white);
+  border: 1.5px solid var(--text-white);
+}
+
+main .carousel-wrapper.wave .carousel-dot-buttons {
+  margin-top: 0;
+}
+
+main .carousel-wrapper.wave .carousel-dot-button {
+  background-color: var(--background-color);
+}
+
+main .carousel-wrapper.wave .carousel-nav-button:hover {
+  color: #adb3b7;
+  border: 1.5px solid #adb3b7;
+  background-color: inherit;
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 992px) {
+  main div.carousel-wrapper.wave {
+    width: 970px;
+  }
+
+  main .carousel.wave {
+    max-width: 90%;
+    height: auto;
+    margin: auto;
+  }
+
+  main .carousel.wave .carousel-item-columns-container {
+    gap: 1em;
+  }
+
+  main .carousel.wave .carousel-item-text {
+    max-width: 530px;
+  }
+
+  main .carousel.wave .carousel-item-image img {
+    height: 310px;
+    width: 200px;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  main div.carousel-wrapper.wave {
+    width: 750px;
+  }
+
+  main .carousel.wave .carousel-item-image img {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  main div.carousel-wrapper.wave {
+    width: 100%;
+  }
+
+  main .carousel.wave {
+    /*
+      Ugly hack because you cannot mix overflow-x: hidden with overflow-y: visible
+      https://stackoverflow.com/a/39554003
+    */
+    padding-top: 170px;
+    margin-top: -170px;
+  }
+
+  main .carousel.wave .carousel-item {
+    position: relative;
+    padding: 0 30px;
+    max-width: 90%;
+  }
+
+  main .carousel.wave .carousel-item-columns-container {
+    gap: 0;
+  }
+
+  main .carousel.wave .carousel-item-image img {
+    max-width: unset;
+    display: block;
+    height: 290px;
+    width: 260px;
+    flex-shrink: 0;
+  }
+
+  main .carousel.wave .carousel-item-image {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin: auto;
+    display: block;
+    top: -180px;
+  }
+
+  main .carousel.wave .carousel-item-text {
+    margin-top: 140px;
+    padding-right: 0;
+    padding-left: 0;
+    padding-bottom: 25px;
+    max-width: unset;
+  }
+
+  main .carousel-wrapper.wave .carousel-dot-buttons {
+    margin-bottom: 25px;
+  }
+}
+
+/* WAVE Blue Variant */
+main div.carousel-wrapper.wave.blue .carousel-dot-button.selected {
+  background-color: #23bfd9;
+}
+
+/* WAVE BlueGreen Variant */
+main div.carousel-wrapper.wave.bluegreen .carousel-dot-button.selected {
+  background-color: #86c440;
+}
+
+main .carousel .carousel-item-text blockquote {
+  margin: 0;
+  position: static;
+}
+
+main .carousel .carousel-item .carousel-item-text blockquote ~ p,
+main .carousel .carousel-item .carousel-item-text blockquote > p {
+  padding: 0;
+  font-style: normal;
+  font-size: 23px;
+  line-height: 28px;
+}
+
+main .carousel .carousel-item .carousel-item-text blockquote > p::before,
+main .carousel .carousel-item .carousel-item-text blockquote > p::after {
+  content: none;
+}
+
+main .carousel blockquote::before,
+main .carousel blockquote::after {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-position: center;
+  background-size: 100px;
+  background-repeat: no-repeat;
+}
+
+main .carousel blockquote::before {
+  background-image: url('/images/quote-left.png');
+  left: -50px;
+  top: -89px;
+}
+
+main .carousel blockquote::after {
+  background-image: url('/images/quote-right.png');
+  right: -1.5em;
+  bottom: -60px;
+}
+
+@media only screen and (max-width: 992px) {
+  main .carousel blockquote::before,
+  main .carousel blockquote::after {
+    width: 33px;
+    height: 33px;
+    background-size: 33px;
+  }
+
+  main .carousel blockquote::before {
+    left: -8px;
+    top: -35px;
+  }
+
+  main .carousel blockquote::after {
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  main .carousel .carousel-item .carousel-item-text blockquote > p {
+    font-size: 16px;
+  }
+
+  main .carousel .carousel-item .carousel-item-text blockquote + p {
+    font-size: 18px;
+  }
+}
+
+main .block.carousel.full-size .carousel-item-column {
+  width: auto;
+}
+
+main .block.carousel.full-size .carousel-item-image img {
+  max-height: none;
+}

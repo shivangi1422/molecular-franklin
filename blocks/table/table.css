@@ -1,0 +1,125 @@
+.table {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 25px;
+  margin-bottom: 35px;
+}
+
+.table table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: var(--body-font-size-m);
+}
+
+.table table th {
+  background: var(--light-gray-background-color);
+}
+
+.table table th,
+.table table td {
+  border: 1px solid var(--light-border-color-gray);
+  padding: 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table th.text-align-left,
+table td.text-align-left {
+  text-align: left;
+}
+
+table th.text-align-center,
+table td.text-align-center {
+  text-align: center;
+}
+
+table th.text-align-right,
+table td.text-align-right {
+  text-align: right;
+}
+
+table th.vertical-align-top,
+table td.vertical-align-bottom {
+  vertical-align: top;
+}
+
+table th.vertical-align-middle,
+table td.vertical-align-middle {
+  vertical-align: middle;
+}
+
+table th.vertical-align-bottom,
+table td.vertical-align-bottom {
+  vertical-align: bottom;
+}
+
+table i.fa.fa-circle {
+  font-size: 8px;
+}
+
+.options-compare table {
+  font-size: small;
+}
+
+.table.order table {
+  font-size: 18px; /* Font size does not change for mobile views */
+  margin-bottom: 20px;
+}
+
+.options-compare table th {
+  background-color: transparent;
+}
+
+.table.order table td,
+.table.order table th {
+  border: none;
+  padding: 8px;
+  line-height: 1.43;
+  vertical-align: top;
+  border-top: 1px solid var(--light-border-color-gray);
+}
+
+.table.order table p {
+  margin: 0;
+}
+
+.options-compare table td:first-child {
+  background-color: #525b61 !important;
+  color: white;
+  width: 190px;
+  padding: 15px;
+}
+
+.options-compare table th:nth-child(odd),
+.options-compare table td:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+.table.order table td:first-child {
+  padding: 8px 20px;
+}
+
+.table.order strong {
+  font-family: var(--ff-proxima-regular);
+}
+
+.table.order em > strong {
+  display: inline-block;
+  font-family: var(--ff-proxima-xbold);
+  padding-top: 20px;
+}
+
+.options-compare table th:first-child {
+  background-color: transparent;
+  border: none;
+}
+
+.table.order table tr.apparent-heading th {
+  border: none;
+  background: none;
+}
+
+.table.order table tr.apparent-heading:not(:first-child) th {
+  padding-top: 50px;
+}

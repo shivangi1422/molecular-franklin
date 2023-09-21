@@ -1,0 +1,95 @@
+main .section .related-products-wrapper {
+  padding-top: 20px;
+}
+
+.related-products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  align-content: stretch;
+  gap: 20px;
+}
+
+.related-products .carousel-item {
+  width: 30.7%;
+  max-width: 30.7%;
+  height: auto;
+  display: block;
+  flex: 0 1 auto;
+  padding: 20px 15px 40px;
+  margin: 0;
+}
+
+.related-products .card-thumb {
+  height: 240px;
+  min-height: 240px;
+}
+
+.related-products .card-thumb img {
+  height: 240px;
+  position: static;
+  width: 100%;
+  object-fit: none;
+  object-position: bottom;
+}
+
+.related-products .card-type {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--text-white);
+  background-color: #6eb43f;
+  padding: 5px 15px;
+  text-transform: uppercase;
+  font-family: var(--ff-proxima-light);
+  font-weight: 100;
+  font-size: var(--body-font-size-s);
+}
+
+.related-products .card-caption .card-description {
+  font-size: var(--body-font-size-xs);
+}
+
+.related-products .card .button-container {
+  width: 100%;
+  margin-top: auto;
+  line-height: 24px;
+  text-align: left;
+}
+
+.related-products .card .button-container a {
+  color: #008ca8;
+}
+
+.related-products .carousel-item.clone {
+  display: none;
+}
+
+@media only screen and (max-width: 992px) {
+  .related-products .carousel-item {
+    width: 45%;
+    max-width: 45%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .related-products {
+    justify-content: start;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    padding: 0 10%;
+    gap: 0;
+  }
+
+  .related-products .carousel-item {
+    max-width: 100%;
+    flex: 1 0 100%;
+  }
+
+
+  .related-products .carousel-item.clone {
+    display: block;
+  }
+}
