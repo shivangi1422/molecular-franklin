@@ -43,8 +43,7 @@ main .carousel-item-columns-container {
 }
 
 main .carousel-item-column {
-  width: 50%;
-  padding: 0 15px;
+  width: 100%;
 }
 
 main .carousel-item-image img {
