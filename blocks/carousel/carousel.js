@@ -213,43 +213,6 @@ class Carousel {
   }
 
   /**
-  * Create left and right arrow navigation buttons
-  */
-  createNavButtons(parentElement) {
-    const buttonLeft = document.createElement('button');
-    buttonLeft.classList.add('carousel-nav-left');
-    buttonLeft.ariaLabel = 'Scroll to previous item';
-    buttonLeft.append(span({ class: 'icon icon-chevron-left' }));
-    buttonLeft.addEventListener('click', () => {
-      clearInterval(this.intervalId);
-      this.prevItem();
-    });
-
-    if (!this.infiniteScroll) {
-      buttonLeft.classList.add('disabled');
-    }
-
-    const buttonRight = document.createElement('button');
-    buttonRight.classList.add('carousel-nav-right');
-    buttonRight.ariaLabel = 'Scroll to next item';
-    buttonRight.append(span({ class: 'icon icon-chevron-right' }));
-    buttonRight.addEventListener('click', () => {
-      clearInterval(this.intervalId);
-      this.nextItem();
-    });
-
-    [buttonLeft, buttonRight].forEach((navButton) => {
-      navButton.classList.add('carousel-nav-button');
-      parentElement.append(navButton);
-    });
-
-    decorateIcons(buttonLeft);
-    decorateIcons(buttonRight);
-    this.navButtonLeft = buttonLeft;
-    this.navButtonRight = buttonRight;
-  }
-
-  /**
   * Adds event listeners for touch UI swiping
   */
   addSwipeCapability() {
@@ -432,7 +395,6 @@ class Carousel {
       && (this.intervalId = setInterval(() => { this.nextItem(); }, this.autoScrollInterval));
     this.dotButtons && this.createDotButtons();
     this.counter && this.createCounter();
-    this.navButtons && this.createNavButtons(this.block.parentElement);
     this.infiniteScroll && this.createClones();
     this.addSwipeCapability();
     this.infiniteScroll && this.setInitialScrollingPosition();

@@ -67,46 +67,6 @@ main .carousel-item-text .button-container .secondary {
   margin-left: 15px;
 }
 
-main .carousel-nav-button {
-  z-index: 99;
-  min-width: unset;
-  padding: 0;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translate(0, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #adb3b7;               /* default - same as .products */
-  border: 1.5px solid #adb3b7;  /* default - same as .products */
-  background-color: inherit;      /* default - same as .products */
-}
-
-main .carousel-nav-button.disabled {
-  display: none;
-}
-
-main .carousel-nav-button:hover {
-  background-color: #adb3b7;
-  color: var(--text-white);
-  border: 1.5px solid var(--background-color);
-}
-
-main .carousel-nav-button .icon {
-  height: 38px;
-  width: 38px;
-  stroke-width: 20;
-}
-
-main .carousel-nav-left {
-  left: 20px;
-}
-
-main .carousel-nav-right {
-  right: 20px;
-}
-
 main .carousel-dot-buttons {
   display: flex;
   justify-content: center;
@@ -150,7 +110,7 @@ main .carousel-dot-button.selected {
   }
 
   main .carousel-item-image img {
-    max-height: 300px;
+    max-height: auto;
   }
 }
 
@@ -178,15 +138,6 @@ main .carousel-dot-button.selected {
     max-width: 200px !important;
     width: 100% !important;
     font-size: 12px;
-  }
-
-  main .carousel-nav-button .icon {
-    height: 26px;
-    width: 26px;
-  }
-
-  main .carousel-nav-button {
-    width: unset;
   }
 }
 
@@ -239,8 +190,8 @@ main .carousel.wave .carousel-item-column {
 }
 
 main .carousel.wave .carousel-item-image img {
-  height: 353px;
-  width: 330px;
+  height: auto;
+  width: auto;
 }
 
 main .carousel.wave .carousel-item-text {
