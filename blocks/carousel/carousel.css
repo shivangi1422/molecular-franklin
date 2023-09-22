@@ -43,7 +43,7 @@ main .carousel-item-columns-container {
 }
 
 main .carousel-item-column {
-  width: 100%;
+  width: auto;
 }
 
 main .carousel-item-image img {
