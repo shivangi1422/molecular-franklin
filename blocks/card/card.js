@@ -19,7 +19,7 @@ import {
 
 let placeholders = {};
 
-export async function handleCompareProducts(e) {
+export async function handleCompareProducts(e) {F
   const { target } = e;
   const clickedItemTitle = getTitleFromNode(target);
   const selectedItemTitles = getSelectedItems();
