@@ -8,6 +8,8 @@ indices:
       - '/tools/sidekick/**'
       - '/fragments/**'
       - '/sites/default/files/**'
+      - '/en/assets/promotion/**'
+      - '/eu/assets/promotion/**'
     target: /query-index.json
     properties:
       title:
@@ -103,7 +105,10 @@ indices:
         value: attribute(el, "content")
       productBundle:
         select: head > meta[name="bundle-products"]
-        value: attribute(el, "content")            
+        value: attribute(el, "content")
+      bundleThumbnail:
+        select: head > meta[name="bundle-thumbnail"]
+        value: attribute(el, "content")               
       productLandingPageOrder:
         select: head > meta[name="landing-page-order"]
         value: attribute(el, "content")
@@ -171,8 +176,21 @@ indices:
   files:
     include:
       - '/sites/default/files/en/**'
+    exclude:
+      - '/sites/default/files/en/assets/app-note/**'
     target: /sites/default/files/query-index.json
     properties:
       lastModified:
         select: none
         value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")
+  hubspot:
+    include:
+      - '/en/assets/newsletters/**'
+    target: /sites/default/files/hubspot/query-index.json
+    properties:
+      path:
+        select: head > meta[name="gated-url"]
+        value: attribute(el, "content")
+       lastModified:
+        select: none
+        value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")     

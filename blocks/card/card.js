@@ -5,7 +5,7 @@
 import {
   decorateIcons, loadCSS, createOptimizedPicture, fetchPlaceholders, toCamelCase,
 } from '../../scripts/lib-franklin.js';
-import { isGatedResource, summariseDescription } from '../../scripts/scripts.js';
+import { formatDateUTCSeconds, isGatedResource, summariseDescription } from '../../scripts/scripts.js';
 import {
   a, div, h3, p, i, span,
 } from '../../scripts/dom-helpers.js';
@@ -19,7 +19,7 @@ import {
 
 let placeholders = {};
 
-export async function handleCompareProducts(e) {F
+export async function handleCompareProducts(e) {
   const { target } = e;
   const clickedItemTitle = getTitleFromNode(target);
   const selectedItemTitles = getSelectedItems();
@@ -62,6 +62,8 @@ class Card {
     this.c2aLinkStyle = false;
     this.c2aLinkConfig = false;
     this.c2aLinkIconFull = false;
+    this.showDate = false;
+    this.showCategory = false;
 
     // Apply overwrites
     Object.assign(this, config);
@@ -150,8 +152,10 @@ class Card {
           ) : thumbnailBlock,
         ) : '',
         item.badgeText ? div({ class: 'badge' }, item.badgeText) : '',
+        this.showCategory ? span({ class: 'card-category' }, item.subCategory && item.subCategory !== '0' ? item.subCategory : item.category) : '',
         div({ class: 'card-caption' },
-          item.type ? div({ class: 'card-type' }, item.type) : '',
+          item.displayType ? div({ class: 'card-type' }, item.displayType) : '',
+          this.showDate ? div({ class: 'card-date' }, formatDateUTCSeconds(item.date)) : '',
           h3(
             this.titleLink ? a({ href: cardLink }, cardTitle) : cardTitle,
           ),
@@ -163,15 +167,11 @@ class Card {
   }
 
   async loadCSSFiles() {
-    let defaultCSSPromise;
+    let defaultCSSPromise = Promise.resolve();
     if (Array.isArray(this.cssFiles) && this.cssFiles.length > 0) {
-      defaultCSSPromise = new Promise((resolve) => {
-        this.cssFiles.forEach((cssFile) => {
-          loadCSS(cssFile, (e) => resolve(e));
-        });
-      });
+      defaultCSSPromise = Promise.all(this.cssFiles.map(loadCSS));
     }
-    this.cssFiles && (await defaultCSSPromise);
+    return defaultCSSPromise;
   }
 }
 

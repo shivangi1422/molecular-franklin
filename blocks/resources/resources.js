@@ -1,5 +1,4 @@
-/* eslint-disable no-nested-ternary */
-
+/* eslint-disable no-nested-ternary, linebreak-style */
 import {
   div, a, p, h3, i, h2, span, ul, li,
 } from '../../scripts/dom-helpers.js';
@@ -19,7 +18,8 @@ const relatedResourcesHeaders = {
   Application: 'relatedApplications',
 };
 const videoResourceTypes = ['Videos and Webinars', 'Interactive Demo'];
-const excludedResources = ['Citation', 'COA', ...videoResourceTypes];
+const excludedResourcesProducts = ['Citation', 'COA', ...videoResourceTypes];
+const excludedResourcesApplications = ['COA', ...videoResourceTypes];
 
 function handleFilterClick(e) {
   e.preventDefault();
@@ -59,10 +59,10 @@ export default async function decorate(block) {
 
   const resources = await ffetch('/query-index.json')
     .sheet('resources')
-    .chunks(2000)
     .filter((resource) => resource[relatedResource].includes(identifier)
       && includedResourceTypes.includes(resource.type))
     .all();
+  const excludedResources = template === 'Application' ? excludedResourcesApplications : excludedResourcesProducts;
   const otherResources = resources.filter((item) => !excludedResources.includes(item.type));
   const videoResources = resources.filter((item) => videoResourceTypes.includes(item.type));
 

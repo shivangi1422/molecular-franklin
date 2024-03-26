@@ -1,9 +1,9 @@
 import {
-  readBlockConfig, decorateIcons, decorateBlock, fetchPlaceholders,
+  decorateIcons, decorateBlock, fetchPlaceholders, getMetadata,
 } from '../../scripts/lib-franklin.js';
 import ffetch from '../../scripts/ffetch.js';
 import {
-  a, div, i, iframe, p,
+  a, div, i, iframe, li, p, ul,
 } from '../../scripts/dom-helpers.js';
 import {
   decorateExternalLink, formatDate, loadScript, unixDateToString,
@@ -85,6 +85,7 @@ async function renderNews(container) {
 }
 
 async function buildNewsEvents(container) {
+  if (!container) return;
   [...container.children].forEach((row, j) => {
     [...row.children].forEach((column, k) => {
       column.classList.add('toggle');
@@ -119,6 +120,26 @@ function iframeResizeHandler(formUrl, id, container) {
   });
 }
 
+function capitalize(sting) {
+  return sting[0].toUpperCase() + sting.slice(1);
+}
+
+async function getLatestNewsletter() {
+  const newsletters = await ffetch('/query-index.json')
+    .sheet('resources')
+    .filter((resource) => resource.type === 'Newsletter')
+    .limit(3)
+    .all();
+
+  const list = ul();
+  newsletters.forEach((newsletter) => {
+    let title = newsletter.path.split('/').slice(-1)[0];
+    title = capitalize(title).split('-').join(' ');
+    list.appendChild(li(a({ href: newsletter.gatedURL }, title, i({ class: 'fa fa-chevron-circle-right' }))));
+  });
+  return list;
+}
+
 async function buildNewsletter(container) {
   const newsletterId = 'enewsletter';
   if (container.querySelector(`#${newsletterId} iframe`)) {
@@ -132,8 +153,7 @@ async function buildNewsletter(container) {
       id: newsletterId,
       class: 'hubspot-iframe-wrapper',
       loading: 'lazy',
-    },
-    div(
+    }, div(
       iframe({
         id: formId,
         src: formUrl,
@@ -143,17 +163,25 @@ async function buildNewsletter(container) {
     ),
     )
   );
+
+  const newsletterList = await getLatestNewsletter();
+
   // add submission form from hubspot
   container.querySelector(`#${newsletterId}`).replaceWith(form);
+  container.querySelector(`#${newsletterId}`).insertAdjacentElement('afterend', newsletterList);
   iframeResizeHandler(formUrl, `#${formId}`, container);
-  // remove terms from plain footer, they are provided as part of the iframe
-  container.querySelector(`#${newsletterId} + p`).remove();
 }
 
 function decorateSocialMediaLinks(socialIconsContainer) {
-  socialIconsContainer.querySelectorAll('a').forEach((iconLink) => {
+  socialIconsContainer.querySelectorAll('.social-media-list a').forEach((iconLink) => {
     iconLink.ariaLabel = `molecular devices ${iconLink.children[0].classList[1].split('-')[2]} page`;
   });
+}
+
+function decorateImageWithLink(wrapper, link, title) {
+  const img = wrapper.innerHTML;
+  const newWrapper = `<a href=${link} aria-label='${title}'>${img}</a>`;
+  wrapper.innerHTML = newWrapper;
 }
 
 /**
@@ -162,10 +190,9 @@ function decorateSocialMediaLinks(socialIconsContainer) {
  */
 
 export default async function decorate(block) {
-  const cfg = readBlockConfig(block);
   block.textContent = '';
 
-  const footerPath = cfg.footer || '/footer';
+  const footerPath = getMetadata('footer') || '/footer';
 
   const resp = await fetch(`${footerPath}.plain.html`, window.location.pathname.endsWith('/footer') ? { cache: 'reload' } : {});
   const html = await resp.text();
@@ -189,8 +216,19 @@ export default async function decorate(block) {
       footerBottom.appendChild(row);
     }
 
-    if (idx === 4) {
+    if (idx === 3) {
       decorateSocialMediaLinks(row);
+    }
+
+    if (idx === 4) {
+      const mainUrl = 'https://www.moleculardevices.com/';
+      decorateImageWithLink(row, mainUrl, 'Molecular Devices');
+    }
+
+    if (idx === 5) {
+      const imgWrapper = row.getElementsByTagName('p')[0];
+      const danaherUrl = 'https://www.danaher.com/?utm_source=MLD_web&utm_medium=referral&utm_content=trustmarkfooter';
+      decorateImageWithLink(imgWrapper, danaherUrl, 'Danaher');
     }
   });
 
@@ -210,18 +248,19 @@ export default async function decorate(block) {
    In most cases it is expected that the newsletter is already present when the user has
    scrolled down to it.
   */
-  const newsletterContainter = block.querySelector('.footer-newsletter-form');
+  const newsletterContainer = block.querySelector('.footer-newsletter-form');
+  if (newsletterContainer) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        observer.disconnect();
+        buildNewsletter(newsletterContainer);
+      }
+    });
+    observer.observe(newsletterContainer);
 
-  const observer = new IntersectionObserver((entries) => {
-    if (entries.some((e) => e.isIntersecting)) {
+    setTimeout(() => {
       observer.disconnect();
-      buildNewsletter(newsletterContainter);
-    }
-  });
-  observer.observe(newsletterContainter);
-
-  setTimeout(() => {
-    observer.disconnect();
-    buildNewsletter(newsletterContainter);
-  }, 3000);
+      buildNewsletter(newsletterContainer);
+    }, 3000);
+  }
 }

@@ -17,6 +17,7 @@ import {
   buildBlock,
   readBlockConfig,
   toCamelCase,
+  createOptimizedPicture,
 } from './lib-franklin.js';
 import {
   a, div, domEl, p,
@@ -35,6 +36,7 @@ const TEMPLATE_LIST = [
   'newsroom',
   'landing-page',
 ];
+window.hlx.templates.add(TEMPLATE_LIST.map((tpl) => `/templates/${tpl}`));
 
 const LCP_BLOCKS = ['hero', 'hero-advanced', 'featured-highlights']; // add your LCP blocks to the list
 const SUPPORT_CHANNELS = ['DISTRIBUTOR', 'INTEGRATOR', 'SALES', 'TECH'];
@@ -106,8 +108,18 @@ function optimiseHeroBlock(main) {
  * Append default wave section to pages
  */
 function decorateWaveSection(main) {
+  const waveImage = createOptimizedPicture('/images/wave-footer-bg-top.png', 'wave', false, [
+    { media: '(min-width: 992px)', width: '1663' },
+    { width: '900' },
+  ]);
+  waveImage.querySelector('img').setAttribute('width', '1663');
+  waveImage.querySelector('img').setAttribute('height', '180');
   const skipWave = document.querySelector(':scope.fragment > div, .page-tabs, .landing-page, .section.wave:last-of-type, .section:last-of-type div:first-of-type .fragment:only-child');
-  if (!skipWave) main.appendChild(div({ class: 'section wave', 'data-section-status': 'initialized' }));
+  const waveSection = document.querySelector('.section.wave:not(.bluegreen):last-of-type, .section.wave.orange-buttons');
+  const waveSection2 = document.querySelector('.section.wave.orange-buttons');
+  if (waveSection && !waveSection.querySelector('picture')) { waveSection.appendChild(waveImage); }
+  if (waveSection2 && !waveSection2.querySelector(':scope > picture')) { waveSection2.appendChild(waveImage); }
+  if (!skipWave) main.appendChild(div({ class: 'section wave', 'data-section-status': 'initialized' }, waveImage));
 }
 
 /**
@@ -416,27 +428,6 @@ function decorateLinkedPictures(container) {
   });
 }
 
-/**
- * Run template specific decoration code.
- * @param {Element} main The container element
- */
-async function decorateTemplates(main) {
-  try {
-    const template = toClassName(getMetadata('template'));
-    const templates = TEMPLATE_LIST;
-    if (templates.includes(template)) {
-      const mod = await import(`../templates/${template}/${template}.js`);
-      loadCSS(`${window.hlx.codeBasePath}/templates/${template}/${template}.css`);
-      if (mod.default) {
-        await mod.default(main);
-      }
-    }
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Auto Blocking failed', error);
-  }
-}
-
 function addPageSchema() {
   if (document.querySelector('head > script[type="application/ld+json"]')) return;
 
@@ -487,7 +478,7 @@ function addPageSchema() {
 
     let schemaInfo = null;
     if (type === 'homepage') {
-      const homepageName = getMetadata('title');
+      const homepageName = 'Molecular Devices';
       schemaInfo = {
         '@context': 'https://schema.org',
         '@graph': [
@@ -785,7 +776,7 @@ async function loadEager(doc) {
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {
-    await decorateTemplates(main);
+    await window.hlx.plugins.run('loadEager');
     await decorateMain(main);
     createBreadcrumbsSpace(main);
     await waitForLCP(LCP_BLOCKS);
@@ -842,7 +833,7 @@ export function formatDateUTCSeconds(date, options = {}) {
 
 export function unixDateToString(unixDateString) {
   const date = new Date(unixDateString * 1000);
-  const day = (date.getDate()).toString().padStart(2, '0');
+  const day = date.getUTCDate();
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const year = date.getFullYear();
   return `${month}/${day}/${year}`;
@@ -952,26 +943,31 @@ async function loadLazy(doc) {
 
   await loadBlocks(main);
 
-  enableStickyElements();
+  if (!window.location.pathname.startsWith('/cp-request')) {
+    enableStickyElements();
 
-  const { hash } = window.location;
-  const element = hash ? doc.getElementById(hash.substring(1)) : false;
-  if (hash && element) element.scrollIntoView();
+    const { hash } = window.location;
+    const element = hash ? doc.getElementById(hash.substring(1)) : false;
+    if (hash && element) element.scrollIntoView();
 
-  loadFooter(doc.querySelector('footer'));
-  loadBreadcrumbs(main);
+    loadFooter(doc.querySelector('footer'));
+    loadBreadcrumbs(main);
 
-  loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-  loadCSS(`${window.hlx.codeBasePath}/styles/fonts.css`, () => {
-    try {
-      if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
-    } catch (e) {
-      // do nothing
-    }
-  });
-  sampleRUM('lazy');
-  sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
-  sampleRUM.observe(main.querySelectorAll('picture > img'));
+    loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
+    loadCSS(`${window.hlx.codeBasePath}/styles/fonts.css`).then(() => {
+      try {
+        if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
+      } catch (e) {
+        // do nothing
+      }
+    });
+
+    window.hlx.plugins.run('loadLazy');
+
+    sampleRUM('lazy');
+    sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
+    sampleRUM.observe(main.querySelectorAll('picture > img'));
+  }
 }
 
 /**
@@ -979,8 +975,14 @@ async function loadLazy(doc) {
  * the user experience.
  */
 function loadDelayed() {
-  // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
+  if (!window.location.pathname.startsWith('/cp-request')) {
+    window.setTimeout(() => {
+      window.hlx.plugins.load('delayed');
+      window.hlx.plugins.run('loadDelayed');
+      // eslint-disable-next-line import/no-cycle
+      return import('./delayed.js');
+    }, 3000);
+  }
   // load anything that can be postponed to the latest here
 }
 
@@ -1044,7 +1046,7 @@ export function getCookie(cname) {
 function setCookieFromQueryParameters(paramName, exdays) {
   const readQuery = getQueryParameter();
   if (readQuery[paramName]) {
-    setCookie(paramName === 'mdcmp' ? 'cmp' : paramName, readQuery[paramName], exdays);
+    setCookie(paramName, readQuery[paramName], exdays);
   }
 }
 
@@ -1072,12 +1074,42 @@ export function getCartItemCount() {
   return getCookie('cart-item-count') || 0;
 }
 
+/**
+ * Detect anchor
+ */
+export function detectAnchor(block) {
+  const activeHash = window.location.hash;
+  if (!activeHash) return;
+
+  const id = activeHash.substring(1, activeHash.length).toLocaleLowerCase();
+  const el = block.querySelector(`#${id}`);
+  if (el) {
+    const observer = new MutationObserver((mutationList) => {
+      mutationList.forEach((mutation) => {
+        if (mutation.type === 'attributes'
+          && mutation.attributeName === 'data-block-status'
+          && block.attributes.getNamedItem('data-block-status').value === 'loaded') {
+          observer.disconnect();
+          setTimeout(() => {
+            window.dispatchEvent(new Event('hashchange'));
+          },
+          3500,
+          );
+        }
+      });
+    });
+    observer.observe(block, { attributes: true });
+  }
+}
+
 async function loadPage() {
+  await window.hlx.plugins.load('eager');
   await loadEager(document);
+  await window.hlx.plugins.load('lazy');
   await loadLazy(document);
   loadDelayed();
 }
-const cookieParams = ['cmp', 'mdcmp', 'utm_medium', 'utm_source', 'utm_keyword', 'gclid'];
+const cookieParams = ['cmp', 'utm_medium', 'utm_source', 'utm_keyword', 'gclid'];
 
 cookieParams.forEach((param) => {
   setCookieFromQueryParameters(param, 0);

@@ -1,6 +1,8 @@
-/* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-expressions, linebreak-style */
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
-import { div, p, span } from '../../scripts/dom-helpers.js';
+import {
+  div, img, p, span,
+} from '../../scripts/dom-helpers.js';
 import { handleCompareProducts } from '../card/card.js';
 
 const AUTOSCROLL_INTERVAL = 7000;
@@ -39,6 +41,7 @@ class Carousel {
     this.counterText = '';
     this.counterNavButtons = true;
     this.cardRenderer = this;
+    this.hasImageInDots = false;
     // this is primarily controlled by CSS,
     // but we need to know then intention for scrolling pourposes
     this.visibleItems = [
@@ -213,6 +216,43 @@ class Carousel {
   }
 
   /**
+  * Create left and right arrow navigation buttons
+  */
+  createNavButtons(parentElement) {
+    const buttonLeft = document.createElement('button');
+    buttonLeft.classList.add('carousel-nav-left');
+    buttonLeft.ariaLabel = 'Scroll to previous item';
+    buttonLeft.append(span({ class: 'icon icon-chevron-left' }));
+    buttonLeft.addEventListener('click', () => {
+      clearInterval(this.intervalId);
+      this.prevItem();
+    });
+
+    if (!this.infiniteScroll) {
+      buttonLeft.classList.add('disabled');
+    }
+
+    const buttonRight = document.createElement('button');
+    buttonRight.classList.add('carousel-nav-right');
+    buttonRight.ariaLabel = 'Scroll to next item';
+    buttonRight.append(span({ class: 'icon icon-chevron-right' }));
+    buttonRight.addEventListener('click', () => {
+      clearInterval(this.intervalId);
+      this.nextItem();
+    });
+
+    [buttonLeft, buttonRight].forEach((navButton) => {
+      navButton.classList.add('carousel-nav-button');
+      parentElement.append(navButton);
+    });
+
+    decorateIcons(buttonLeft);
+    decorateIcons(buttonRight);
+    this.navButtonLeft = buttonLeft;
+    this.navButtonRight = buttonRight;
+  }
+
+  /**
   * Adds event listeners for touch UI swiping
   */
   addSwipeCapability() {
@@ -280,13 +320,22 @@ class Carousel {
 
   createDotButtons() {
     const buttons = document.createElement('div');
-    buttons.className = 'carousel-dot-buttons';
+    buttons.className = `carousel-dot-buttons ${this.hasImageInDots ? 'carousel-dot-img-buttons' : ''}`;
     const items = [...this.block.children];
 
     items.forEach((item, i) => {
       const button = document.createElement('button');
       button.ariaLabel = `Scroll to item ${i + 1}`;
       button.classList.add('carousel-dot-button');
+
+      if (this.hasImageInDots) {
+        const imgPath = item.querySelector('img').getAttribute('src');
+        const customPath = imgPath.split('?')[0];
+        const imgFormat = customPath.split('.')[1];
+        const imgPrefix = `${customPath}?width=100&format=${imgFormat}&optimize=medium`;
+        button.appendChild(img({ src: imgPrefix }));
+      }
+
       if (i === this.currentIndex) {
         button.classList.add('selected');
       }
@@ -360,11 +409,7 @@ class Carousel {
     let defaultCSSPromise;
     if (Array.isArray(this.cssFiles) && this.cssFiles.length > 0) {
       // add default carousel classes to apply default CSS
-      defaultCSSPromise = new Promise((resolve) => {
-        this.cssFiles.forEach((cssFile) => {
-          loadCSS(cssFile, (e) => resolve(e));
-        });
-      });
+      defaultCSSPromise = Promise.all(this.cssFiles.map(loadCSS));
       this.block.parentElement.classList.add('carousel-wrapper');
       this.block.classList.add('carousel');
     }
@@ -395,6 +440,7 @@ class Carousel {
       && (this.intervalId = setInterval(() => { this.nextItem(); }, this.autoScrollInterval));
     this.dotButtons && this.createDotButtons();
     this.counter && this.createCounter();
+    this.navButtons && this.createNavButtons(this.block.parentElement);
     this.infiniteScroll && this.createClones();
     this.addSwipeCapability();
     this.infiniteScroll && this.setInitialScrollingPosition();
